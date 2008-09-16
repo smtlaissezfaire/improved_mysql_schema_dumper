@@ -107,4 +107,43 @@ module SMT
       end
     end
   end
+  
+  describe "load" do
+    before :each do
+      @ar_base_connection = mock 'ar base connection', :execute => nil
+      @ar_base = mock 'ar base', :connection => @ar_base_connection
+      ImprovedMysqlSchemaDumper.ar_base = @ar_base
+      
+      @a_file = mock 'a file'
+      File.stub!(:read).and_return "a string"
+    end
+    
+    it "should have the AR BASE connection" do
+      ImprovedMysqlSchemaDumper.connection.should == @ar_base_connection
+    end
+    
+    it "should open the file" do
+      File.should_receive(:read).with(@a_file).and_return "some string"
+      ImprovedMysqlSchemaDumper.load(@a_file)
+    end
+    
+    it "should execute a single string" do
+      File.stub!(:read).and_return "a string"
+      @ar_base_connection.should_receive(:execute).with('a string')
+      ImprovedMysqlSchemaDumper.load(@a_file)
+    end
+    
+    it "should execute a string spanning multiple lines" do
+      File.stub!(:read).and_return "foo\nbar\nbaz"
+      @ar_base_connection.should_receive(:execute).with("foo\nbar\nbaz")
+      ImprovedMysqlSchemaDumper.load(@a_file)
+    end
+    
+    it "should execute multiple statements, split by semi-colons" do
+      File.stub!(:read).and_return "foo;\nbar;"
+      @ar_base_connection.should_receive(:execute).with("foo")
+      @ar_base_connection.should_receive(:execute).with("\nbar")
+      ImprovedMysqlSchemaDumper.load(@a_file)
+    end
+  end
 end

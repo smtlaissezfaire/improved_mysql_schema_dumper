@@ -5,4 +5,8 @@ ActiveRecord::SchemaDumper.instance_eval do
   def dump(connection, file)
     SMT::ImprovedMysqlSchemaDumper.dump(connection, "#{RAILS_ROOT}/config/development_structure.sql")
   end
+  
+  def load(file)
+    SMT::ImprovedMysqlSchemaDumper.load(file)
+  end
 end

@@ -48,12 +48,22 @@ module SMT
         CMD
       end
       
+      def connection
+        ar_base.connection
+      end
+      
+      def load(a_file)
+        contents = File.read(a_file)
+        contents.split(";").each do |statement|
+          connection.execute(statement)
+        end
+      end
+      
     private
       
       def password?
         database_password ? true : false
       end
-      
     end
   end
 end
