@@ -1,6 +1,6 @@
 module SMT
   module ImprovedMysqlSchemaDumper
-    def dump(connection, file_handle)
+    def self.dump(connection, file_handle)
       file_path = file_handle.path
       cmd = <<-CMD.strip
       mysqldump -u #{database_username} 
