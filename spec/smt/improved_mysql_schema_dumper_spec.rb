@@ -62,11 +62,11 @@ module SMT
       before :each do
         @file_path = "/foo/bar"
         @ar_base = mock 'ar base', :null_object => true
-        ImprovedMysqlSchemaDumper.stub!(:ar_base).and_return @ar_base
-        ImprovedMysqlSchemaDumper.stub!(:database_host).and_return "localhost"
+        ImprovedMysqlSchemaDumper.ar_base = @ar_base
       end
       
       it "should contain the host" do
+        ImprovedMysqlSchemaDumper.stub!(:database_host).and_return "localhost"
         ImprovedMysqlSchemaDumper.dump_command(@file_path).should include("-h localhost")
       end
       
@@ -76,6 +76,15 @@ module SMT
       
       it "should not contain extra spaces" do
         ImprovedMysqlSchemaDumper.dump_command(@file_path).should_not include("  ")
+      end
+      
+      it "should include mysqldump -u root -h localhost" do
+        configuration = {
+          "username" => "root",
+          "host" => "localhost"
+        }
+        @ar_base.stub!(:configurations).and_return({ "development" => configuration })
+        ImprovedMysqlSchemaDumper.dump_command(@file_path).should include("mysqldump -u root -h localhost")
       end
     end
   end

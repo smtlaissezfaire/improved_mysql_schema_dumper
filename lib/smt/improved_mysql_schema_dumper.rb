@@ -37,7 +37,7 @@ module SMT
       end
       
       def dump_command(file_path)
-        cmd = <<-CMD.gsub(/\n|\s\s+/, "")
+        cmd = <<-CMD.gsub(/\s+/, " ")
         mysqldump -u #{database_username}
                   -h #{database_host}
                   -p#{database_password}
