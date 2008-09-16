@@ -44,6 +44,7 @@ module SMT
                   --quote-names
                   --add-drop-table
                   --single-transaction
+                  --no-data
                   #{database_name} > #{file_path}
         CMD
       end

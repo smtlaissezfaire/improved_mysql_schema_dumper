@@ -105,6 +105,10 @@ module SMT
         @ar_base.stub!(:configurations).and_return({ "development" => configuration })
         ImprovedMysqlSchemaDumper.dump_command(@file_path).should_not include("-p")
       end
+
+      it "should not dump data" do
+        ImprovedMysqlSchemaDumper.dump_command(@file_path).should include("--no-data")
+      end
     end
   end
   
