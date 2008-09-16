@@ -57,5 +57,22 @@ module SMT
         ImprovedMysqlSchemaDumper.database_name.should == "development"
       end
     end
+    
+    describe "dump command" do
+      before :each do
+        @file_path = "/foo/bar"
+        @ar_base = mock 'ar base', :null_object => true
+        ImprovedMysqlSchemaDumper.stub!(:ar_base).and_return @ar_base
+        ImprovedMysqlSchemaDumper.stub!(:database_host).and_return "localhost"
+      end
+      
+      it "should contain the host" do
+        ImprovedMysqlSchemaDumper.dump_command(@file_path).should include("-h localhost")
+      end
+      
+      it "should not contain any newlines" do
+        ImprovedMysqlSchemaDumper.dump_command(@file_path).should_not include("\n")
+      end
+    end
   end
 end
