@@ -86,6 +86,25 @@ module SMT
         @ar_base.stub!(:configurations).and_return({ "development" => configuration })
         ImprovedMysqlSchemaDumper.dump_command(@file_path).should include("mysqldump -u root -h localhost")
       end
+      
+      it "should include the password, if there is one" do
+        configuration = {
+          "username" => "root",
+          "host" => "localhost",
+          "password" => "foo"
+        }
+        @ar_base.stub!(:configurations).and_return({ "development" => configuration })
+        ImprovedMysqlSchemaDumper.dump_command(@file_path).should include("-pfoo")
+      end
+      
+      it "should not include the password if there isn't one" do
+        configuration = {
+          "username" => "root",
+          "host" => "localhost"
+        }
+        @ar_base.stub!(:configurations).and_return({ "development" => configuration })
+        ImprovedMysqlSchemaDumper.dump_command(@file_path).should_not include("-p")
+      end
     end
   end
 end

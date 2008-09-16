@@ -37,15 +37,22 @@ module SMT
       end
       
       def dump_command(file_path)
+        password_string = password? ? "-p#{database_password}" : ""
         cmd = <<-CMD.gsub(/\s+/, " ")
         mysqldump -u #{database_username}
                   -h #{database_host}
-                  -p#{database_password}
+                  #{password_string}
                   --quote-names
                   --add-drop-table
                   --single-transaction
                   #{database_name} > #{file_path}
         CMD
+      end
+      
+    private
+      
+      def password?
+        database_password ? true : false
       end
       
     end
