@@ -73,6 +73,10 @@ module SMT
       it "should not contain any newlines" do
         ImprovedMysqlSchemaDumper.dump_command(@file_path).should_not include("\n")
       end
+      
+      it "should not contain extra spaces" do
+        ImprovedMysqlSchemaDumper.dump_command(@file_path).should_not include("  ")
+      end
     end
   end
 end
