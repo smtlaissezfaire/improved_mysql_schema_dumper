@@ -31,8 +31,7 @@ module SMT
         configuration["database"]
       end
       
-      def dump(connection, file_handle)
-        file_path = file_handle.path
+      def dump(connection, file_path)
         sh(dump_command(file_path))
       end
       
