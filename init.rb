@@ -7,6 +7,7 @@ ActiveRecord::SchemaDumper.instance_eval do
   end
   
   def load(file)
-    SMT::ImprovedMysqlSchemaDumper.load(file)
+    SMT::ImprovedMysqlSchemaDumper.load("#{RAILS_ROOT}/config/development_structure.sql")
   end
+  
 end
