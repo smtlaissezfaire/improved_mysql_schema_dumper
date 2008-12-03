@@ -1,13 +1,31 @@
 ImprovedMysqlSchemaDumper
 =========================
 
-Introduction goes here.
+Use mysqldump for rake schema operations.  Necessary when using VIEWS
+or other database constructs rails doesn't understand.
 
 
 Example
 =======
 
-Example goes here.
+Get the code on github:
+
+  http://github.com/smtlaissezfaire/improved_mysql_schema_dumper
 
 
-Copyright (c) 2008 [name of plugin creator], released under the MIT license
+Add it to your rails project:
+
+  git submodule add \
+      git://github.com/smtlaissezfaire/improved_mysql_schema_dumper.git \
+      vendor/plugins/improved_mysql_schema_dumper
+
+
+The following rake tasks are affected:
+
+  db:schema:dump
+  db:schema:load
+  db:structure:dump
+  db:test:clone_structure
+
+
+Copyright (c) 2008 Scott Taylor, released under the MIT and GPL v.3 licenses
