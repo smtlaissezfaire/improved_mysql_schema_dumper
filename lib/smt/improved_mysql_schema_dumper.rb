@@ -52,7 +52,7 @@ module SMT
                   --add-drop-table
                   --single-transaction
                   --no-data
-                  #{database_name} > #{file_path}
+                  #{database_name} > '#{file_path}'
         CMD
       end
       

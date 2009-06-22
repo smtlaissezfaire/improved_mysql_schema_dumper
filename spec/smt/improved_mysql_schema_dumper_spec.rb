@@ -78,6 +78,10 @@ module SMT
         ImprovedMysqlSchemaDumper.dump_command(@file_path).should_not include("  ")
       end
       
+      it "should quote the filename" do
+        ImprovedMysqlSchemaDumper.dump_command(@file_path).should include("> '#{@file_path}'")
+      end
+      
       it "should include mysqldump -u root -h localhost" do
         configuration = {
           "username" => "root",
@@ -96,6 +100,7 @@ module SMT
         @ar_base.stub!(:configurations).and_return({ "development" => configuration })
         ImprovedMysqlSchemaDumper.dump_command(@file_path).should include("-pfoo")
       end
+      
       
       it "should not include the password if there isn't one" do
         configuration = {
