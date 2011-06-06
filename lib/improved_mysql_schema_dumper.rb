@@ -1,3 +1,17 @@
+if defined?(Rails)
+  ActiveRecord::SchemaDumper.instance_eval do
+    alias_method :__old_schema_dumper__, :dump
+
+    def dump(connection, file)
+      ImprovedMysqlSchemaDumper.dump(connection, "#{Rails.root}/db/development_structure.sql")
+    end
+
+    def load(file)
+      ImprovedMysqlSchemaDumper.load("#{Rails.root}/db/development_structure.sql")
+    end
+  end
+end
+
 module ImprovedMysqlSchemaDumper
   MAJOR = 1
   MINOR = 0
